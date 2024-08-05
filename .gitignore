@@ -6,3 +6,6 @@ UserSettings
 Temp
 Logs
 Library
+*.csproj
+*.sln
+.DS_Store
