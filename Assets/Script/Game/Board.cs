@@ -92,9 +92,14 @@ public class Board : MonoBehaviour
         return false;
     }
 
-    public void FindPieceAround(int r, int c)
+    public void SetPieceAndCheckEat(Piece pieceSlot, Piece pieceShoot)
     {
-        BFS(new Vector2Int(r,c));
+        // set property
+        pieceSlot.sprite.sprite = pieceShoot.sprite.sprite;
+        pieceSlot.pieceType = pieceShoot.pieceType;
+        
+        // check BFS
+        BFS(pieceSlot.pos2);
     }
 
     private int RandomBubble()
@@ -148,6 +153,7 @@ public class Board : MonoBehaviour
             foreach (var p in listPieceFound)
             {
                 p.sprite.sprite = null;
+                p.pieceType = PieceType.None;
             }
         }
     }

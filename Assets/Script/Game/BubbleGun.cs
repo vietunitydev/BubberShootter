@@ -90,14 +90,21 @@ public class BubbleGun : MonoBehaviour
                     }
                     
                     // arrive here -> has List point -> end point 
-                    if (board.HasPieceAround(piece))
+                    if (!board.HasPieceAround(piece))
                     {
-                        bubbleCanShot = piece;
-                        List<Vector3> subPoints = points.GetRange(0, i + 2);
-                        points = subPoints;
-                        points[^1] = bubbleCanShot.position;
-                        return;
+                        continue;
                     }
+
+                    if (piece.pieceType != PieceType.None)
+                    {
+                        continue;
+                    }
+                    
+                    bubbleCanShot = piece;
+                    List<Vector3> subPoints = points.GetRange(0, i + 2);
+                    points = subPoints;
+                    points[^1] = bubbleCanShot.position;
+                    return;
                 }
             }
         }
@@ -129,7 +136,9 @@ public class BubbleGun : MonoBehaviour
             bubbleBullet.transform.DOMove(points[i], 1f);
             yield return new WaitForSeconds(1f);
         }
-
+        
+        board.SetPieceAndCheckEat(bubbleCanShot,bubbleBullet);
+        Destroy(bubbleBullet.gameObject);
         bubbleBullet = Instantiate(bubbles[RandomBubble()],spawnPos.transform.position,Quaternion.identity,transform);
         lineGenerator.ClearLine();
     }
