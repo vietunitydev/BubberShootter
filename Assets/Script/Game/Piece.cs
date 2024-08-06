@@ -27,7 +27,8 @@ public class Piece : MonoBehaviour
 
     private void OnMouseDown()
     {
-        board.FindPieceAround(pos2.x,pos2.y);
+        // board.FindPieceAround(pos2.x,pos2.y);
+        // board.HasPieceAround(this);
     }
 }
 
