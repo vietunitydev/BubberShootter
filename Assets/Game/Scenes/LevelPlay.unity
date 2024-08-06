@@ -345,6 +345,7 @@ MonoBehaviour:
     points: []
     width: 1.7
     heigh: 0
+  board: {fileID: 1462870126}
   bubbleBullet: {fileID: 0}
   bubbles:
   - {fileID: -6651629543278968028, guid: 58bae10d106974c92bee074a92eb5f1e, type: 3}
@@ -798,6 +799,7 @@ MonoBehaviour:
   - {fileID: -274969525659333655, guid: 90dc05d9f622f443da565caee81761b7, type: 3}
   - {fileID: -9078024005446360284, guid: f0e2b39191b0c4ea28ee419e2dfc3323, type: 3}
   - {fileID: 7692461572811971325, guid: 82573b6fe8c6444ce89a974295e200de, type: 3}
+  tempBubble: {fileID: 7692461572811971325, guid: fb45dcc9daad740c18d101439a94fbf4, type: 3}
   sizeDefault: {x: 0.35, y: 0.3}
   column: 9
   row: 15
@@ -975,7 +977,7 @@ Transform:
   m_GameObject: {fileID: 7092282606501287071}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -3, z: 0}
+  m_LocalPosition: {x: 0, y: -1.26, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
