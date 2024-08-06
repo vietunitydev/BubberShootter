@@ -30,6 +30,10 @@ public class BubbleGun : MonoBehaviour
     }
     private void Update()
     {
+        // logic
+        // check end position = ray cast 
+        // -> ve
+        // 
         if (Camera.main != null)
         {
             var mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -43,11 +47,8 @@ public class BubbleGun : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            CheckLastPoint();
-            if (CanShoot())
+            if (bubbleCanShot != null)
             {
-                Debug.Log("Shoot");
-                points[^1] = bubbleCanShot.position;
                 Shoot();
             }
         }
@@ -61,7 +62,10 @@ public class BubbleGun : MonoBehaviour
     private void DrawLine(Vector3 target)
     {
         var direction = (target - bubbleBullet.transform.position);
-        points = lineGenerator.GenerateLine(bubbleBullet.transform.position, direction.normalized);
+        points = lineGenerator.GeneratePoint(bubbleBullet.transform.position, direction.normalized);
+        CheckLastPoint();
+        
+        lineGenerator.GenerateLine(points);
     }
     private void CheckLastPoint()
     {
@@ -80,29 +84,24 @@ public class BubbleGun : MonoBehaviour
                     {
                         continue;
                     }
-
-                    if (piece != bubbleBullet)
+                    if (piece == bubbleBullet)
                     {
-                        piecesCheckLine.Add(piece);
+                        continue;
+                    }
+                    
+                    // arrive here -> has List point -> end point 
+                    if (board.HasPieceAround(piece))
+                    {
+                        bubbleCanShot = piece;
+                        List<Vector3> subPoints = points.GetRange(0, i + 2);
+                        points = subPoints;
+                        points[^1] = bubbleCanShot.position;
+                        return;
                     }
                 }
             }
         }
-    }
-
-    private bool CanShoot()
-    {
-        foreach (var piece in piecesCheckLine)
-        {
-            if (board.HasPieceAround(piece))
-            {
-                bubbleCanShot = piece;
-                return true;
-            }
-        }
-
         bubbleCanShot = null;
-        return false;
     }
 
     private void Shoot()
@@ -149,19 +148,16 @@ public class LineGenerator
         line.positionCount = 0;
     }
     
-    public List<Vector3> GenerateLine(Vector3 start, Vector3 direction)
+    public void GenerateLine(List<Vector3> pointsGen)
     {
-        GeneratePoint(start, direction);
-        line.positionCount = points.Count;
-        for (int i = 0; i < points.Count; i++)
+        line.positionCount = pointsGen.Count;
+        for (int i = 0; i < pointsGen.Count; i++)
         {
-            line.SetPosition(i, points[i]);
+            line.SetPosition(i, pointsGen[i]);
         }
-
-        return points;
     }
     
-    private void GeneratePoint(Vector3 start, Vector3 direction)
+    public List<Vector3> GeneratePoint(Vector3 start, Vector3 direction)
     {
         points.Clear();
         points.Add(start);
@@ -200,5 +196,7 @@ public class LineGenerator
             lastPoint.y += - Mathf.Tan(tanRad) * 2 * width;
             points.Add(lastPoint);
         }
+        
+        return points;
     }
 }
