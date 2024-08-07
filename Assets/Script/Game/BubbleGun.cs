@@ -35,6 +35,10 @@ public class BubbleGun : MonoBehaviour
         // check end position = ray cast 
         // -> ve
         // 
+        if (isFlying)
+        {
+            return;
+        }
         if (Camera.main != null)
         {
             var mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -77,7 +81,7 @@ public class BubbleGun : MonoBehaviour
         {
             var start = points[i];
             var direct = points[i + 1] - start;
-            var hits = Physics2D.RaycastAll(start,  direct,5f);
+            var hits = Physics2D.RaycastAll(start,  direct,10f);
             if (hits.Length > 0)
             {
                 foreach (var hit in hits)
@@ -91,6 +95,8 @@ public class BubbleGun : MonoBehaviour
                     {
                         continue;
                     }
+                    
+                    piecesCheckLine.Add(piece);
                     
                     if (piece.pieceType == PieceType.None)
                     {
@@ -133,8 +139,10 @@ public class BubbleGun : MonoBehaviour
         StartCoroutine(FLyAsync());
     }
 
+    private bool isFlying;
     IEnumerator FLyAsync()
     {
+        isFlying = true;
         bubbleBullet.transform.DOMove(points[1], 0.5f);
         yield return new WaitForSeconds(0.5f);
         
@@ -148,6 +156,7 @@ public class BubbleGun : MonoBehaviour
         Destroy(bubbleBullet.gameObject);
         bubbleBullet = Instantiate(bubbles[RandomBubble()],spawnPos.transform.position,Quaternion.identity,transform);
         lineGenerator.ClearLine();
+        isFlying = false;
     }
 }
 
