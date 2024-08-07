@@ -704,7 +704,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a29ee478b08114b4b8c0e854a1f063eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listPieceFound: []
+  endPoint: {x: 1.1, y: -2, z: 0}
+  jumpForce: 2
+  jumpDuration: 2
 --- !u!1 &1692993349
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,16 +7,19 @@ using UnityEngine;
 
 [Serializable]
 public class PieceFallingChecker : MonoBehaviour
-{ 
+{
+    [SerializeField] private Vector3 endPoint;
+    [SerializeField] private float jumpForce;
+    [SerializeField] private float jumpDuration;
+    
+    // ====================== Use for BFS
     private Board board;
     private Piece[,] boardPiece;
-    public List<Piece> listPieceFound = new List<Piece>();
+    private List<Piece> listPieceFound = new List<Piece>();
     private bool[,] visited;
-
     private int[,] directionsOdd = { { 0, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 }, { -1, -1 }, { -1, 0 } };
-
     private int[,] directionsEven = { { 0, 1 }, { 1, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 }, { -1, 1 } };
-    
+    // ======================
     public void Init(Board b)
     {
         board = b;
@@ -80,7 +83,11 @@ public class PieceFallingChecker : MonoBehaviour
             Piece piece = boardPiece[fall.x, fall.y];
             Piece newPiece = Instantiate(piece,piece.position,Quaternion.identity);
 
-            newPiece.transform.DOJump(new Vector3(newPiece.position.x,newPiece.position.y-6,0),6f,1,2f).OnComplete(() => Destroy(newPiece));
+            newPiece.transform.DOJump(endPoint,jumpForce,1,jumpDuration).OnComplete(() =>
+            {
+                Destroy(newPiece.gameObject);
+                Debug.Log("Destroy Piece Fall");
+            });
             piece.SetNone();
         }
     }
