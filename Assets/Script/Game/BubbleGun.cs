@@ -83,7 +83,8 @@ public class BubbleGun : MonoBehaviour
         {
             var start = points[i];
             var direct = points[i + 1] - start;
-            var hits = Physics2D.RaycastAll(start,  direct,10f);
+            var distance = Vector3.Distance(points[i + 1] , points[i]);
+            var hits = Physics2D.RaycastAll(start,  direct,distance);
             if (hits.Length > 0)
             {
                 foreach (var hit in hits)
@@ -114,7 +115,10 @@ public class BubbleGun : MonoBehaviour
                     List<Vector3> subPoints = points.GetRange(0, i + 2);
                     points = subPoints;
                     // set end point to draw
-                    points[^1] = hit.point;
+                    if (Mathf.Abs(hit.point.x) < lineGenerator.Width)
+                    {
+                        points[^1] = hit.point;
+                    }
                     // set border to check
                     bubbleCanShot.SetBorder();
                     return;
@@ -173,6 +177,7 @@ public class LineGenerator
     [SerializeField] private List<Vector3> points;
 
     [SerializeField] private float width;
+    public float Width => width;
 
     public void ClearLine()
     {
