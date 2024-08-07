@@ -804,7 +804,7 @@ MonoBehaviour:
   - type: 1
     sprite: {fileID: 21300000, guid: 12cad9b6e51a44bfa98f3cd3b8c40c25, type: 3}
   - type: 2
-    sprite: {fileID: 21300000, guid: 0be50836002eb4649abebc87d30747d6, type: 3}
+    sprite: {fileID: 21300000, guid: 5342dcc4e4e934e90bbe9bf0ad589da5, type: 3}
   - type: 3
     sprite: {fileID: 21300000, guid: b1edb5a8e97e9430e8560332dc35409e, type: 3}
   - type: 4
