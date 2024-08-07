@@ -339,7 +339,7 @@ MonoBehaviour:
   lineGenerator:
     line: {fileID: 1168408660}
     points: []
-    width: 1.7
+    width: 1.5
   board: {fileID: 1462870126}
   bubbleBullet: {fileID: 0}
   bubbles:
