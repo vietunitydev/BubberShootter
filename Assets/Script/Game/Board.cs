@@ -116,10 +116,10 @@ public class Board : MonoBehaviour
     {
         if (r % 2 == 0)
         {
-            return new Vector3(-1.425f + c*sizeDefault.x,r*sizeDefault.y,0);
+            return new Vector3(-1.425f + c*sizeDefault.x,-1 + r*sizeDefault.y,0);
         }
         
-        return new Vector3(-1.6f + c*sizeDefault.x,r*sizeDefault.y,0);
+        return new Vector3(-1.6f + c*sizeDefault.x,-1 + r*sizeDefault.y,0);
     }
 
     private List<Piece> BFS(Vector2Int start)
