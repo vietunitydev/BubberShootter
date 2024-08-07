@@ -350,6 +350,7 @@ MonoBehaviour:
   - {fileID: 7692461572811971325, guid: 82573b6fe8c6444ce89a974295e200de, type: 3}
   spawnPos: {fileID: 7092282606501287071}
   bullet: 10
+  timeFly: 0.3
   piecesCheckLine: []
   bubbleBlockLine: {fileID: 0}
   bubbleCanShot: {fileID: 0}

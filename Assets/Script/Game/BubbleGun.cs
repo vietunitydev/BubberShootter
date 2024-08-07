@@ -16,6 +16,7 @@ public class BubbleGun : MonoBehaviour
     [SerializeField] private List<Piece> bubbles;
     [SerializeField] private GameObject spawnPos;
     [SerializeField] private int bullet;
+    [SerializeField] private float timeFly;
 
     private List<Vector3> points;
     
@@ -143,13 +144,13 @@ public class BubbleGun : MonoBehaviour
     IEnumerator FLyAsync()
     {
         isFlying = true;
-        bubbleBullet.transform.DOMove(points[1], 0.5f);
-        yield return new WaitForSeconds(0.5f);
+        bubbleBullet.transform.DOMove(points[1], timeFly/2);
+        yield return new WaitForSeconds(timeFly/2);
         
         for (int i = 2; i < points.Count ; i++)
         {
-            bubbleBullet.transform.DOMove(points[i], 1f);
-            yield return new WaitForSeconds(1f);
+            bubbleBullet.transform.DOMove(points[i], timeFly);
+            yield return new WaitForSeconds(timeFly);
         }
         
         board.SetPieceAndCheckEat(bubbleCanShot,bubbleBullet);
