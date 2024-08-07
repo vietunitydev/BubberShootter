@@ -117,17 +117,22 @@ public class Board : MonoBehaviour
         
         return new Vector3(-1.6f + c*sizeDefault.x,r*sizeDefault.y,0);
     }
-    
-    public void BFS(Vector2Int start)
+
+    private void BFS(Vector2Int start)
     {
-        bool[,] visited = new bool[row, column+1];
         Queue<Vector2Int> queue = new Queue<Vector2Int>();
-        listPieceFound.Clear();
         queue.Enqueue(start);
+        
+        bool[,] visited = new bool[row, column+1];
         visited[start.x, start.y] = true;
-        listPieceFound.Add(boardPiece[start.x, start.y]);
+        
+        // type check
         PieceType type = boardPiece[start.x, start.y].pieceType;
 
+        // check piece found
+        listPieceFound.Clear();
+        listPieceFound.Add(boardPiece[start.x, start.y]);
+        
         while (queue.Count > 0)
         {
             Vector2Int current = queue.Dequeue();
@@ -139,16 +144,31 @@ public class Board : MonoBehaviour
             {
                 int nx = current.x + directions[i, 0];
                 int ny = current.y + directions[i, 1];
-
-                if (nx >= 0 && nx < row && ny >= 0 && ny < column && !visited[nx, ny] && type == boardPiece[nx,ny].pieceType)
+                
+                // limit 
+                if (nx >= 0 && nx < row && ny >= 0 && ny < column + 1 && !visited[nx, ny])
                 {
-                    queue.Enqueue(new Vector2Int(nx, ny));
-                    listPieceFound.Add(boardPiece[nx,ny]);
-                    visited[nx, ny] = true;
+                    // check null
+                    if (boardPiece[nx, ny] == null)
+                    {
+                        continue;
+                    }
+                    // check same type
+                    if (type == boardPiece[nx, ny].pieceType)
+                    {
+                        queue.Enqueue(new Vector2Int(nx, ny));
+                        listPieceFound.Add(boardPiece[nx,ny]);
+                        visited[nx, ny] = true;
+                    }
                 }
             }
         }
 
+        RemoveListFound();
+    }
+
+    private void RemoveListFound()
+    {
         if (listPieceFound.Count >= 3)
         {
             foreach (var p in listPieceFound)
