@@ -16,10 +16,11 @@ public class BubbleGun : MonoBehaviour
     [SerializeField] private List<Piece> bubbles;
     [SerializeField] private GameObject spawnPos;
     [SerializeField] private int bullet;
-    [SerializeField] private float timeFly;
+    [SerializeField] private float velocity;
 
     private List<Vector3> points;
-    
+    private bool isFlying;
+
     [Header("Debug ListCheck")] [SerializeField]
     private List<Piece> piecesCheckLine;
     [SerializeField] private Piece bubbleBlockLine;
@@ -140,24 +141,28 @@ public class BubbleGun : MonoBehaviour
         StartCoroutine(FLyAsync());
     }
 
-    private bool isFlying;
     IEnumerator FLyAsync()
     {
         isFlying = true;
-        bubbleBullet.transform.DOMove(points[1], timeFly/2);
-        yield return new WaitForSeconds(timeFly/2);
-        
-        for (int i = 2; i < points.Count ; i++)
+        lineGenerator.ClearLine();
+
+        for (int i = 1; i < points.Count ; i++)
         {
-            bubbleBullet.transform.DOMove(points[i], timeFly);
-            yield return new WaitForSeconds(timeFly);
+            var time = CalculateFlyTime(bubbleBullet.transform.position, points[i]);
+            bubbleBullet.transform.DOMove(points[i], time);
+            yield return new WaitForSeconds(time);
         }
         
         board.SetPieceAndCheckEat(bubbleCanShot,bubbleBullet);
         Destroy(bubbleBullet.gameObject);
         bubbleBullet = Instantiate(bubbles[RandomBubble()],spawnPos.transform.position,Quaternion.identity,transform);
-        lineGenerator.ClearLine();
         isFlying = false;
+    }
+
+    private float CalculateFlyTime(Vector3 start, Vector3 end)
+    {
+        var distance = Vector3.Distance(start, end);
+        return distance / velocity;
     }
 }
 
