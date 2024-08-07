@@ -7,8 +7,9 @@ public class Board : MonoBehaviour
 {
     [SerializeField] private List<Piece> bubbles;
     [SerializeField] private List<PieceData> pieceDatas;
-    [SerializeField] private Piece tempBubble;
+    [SerializeField] private PieceFallingChecker pieceFallingChecker;
     [SerializeField] private Piece[,] boardPiece;
+    [SerializeField] private Piece tempBubble;
     public Vector2 sizeDefault;
     public int column;
     public int row;
@@ -25,6 +26,7 @@ public class Board : MonoBehaviour
     {
         // Application.targetFrameRate = 60;
         GenerateMap();
+        pieceFallingChecker.Init(this);
     }
     private void GenerateMap()
     {
@@ -101,6 +103,8 @@ public class Board : MonoBehaviour
         
         // check BFS
         BFS(pieceSlot.pos2);
+        RemoveListFound();
+        pieceFallingChecker.CheckFalling();
     }
 
     private int RandomBubble()
@@ -118,7 +122,7 @@ public class Board : MonoBehaviour
         return new Vector3(-1.6f + c*sizeDefault.x,r*sizeDefault.y,0);
     }
 
-    private void BFS(Vector2Int start)
+    private List<Piece> BFS(Vector2Int start)
     {
         Queue<Vector2Int> queue = new Queue<Vector2Int>();
         queue.Enqueue(start);
@@ -164,7 +168,7 @@ public class Board : MonoBehaviour
             }
         }
 
-        RemoveListFound();
+        return listPieceFound;
     }
 
     private void RemoveListFound()

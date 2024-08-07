@@ -40,6 +40,12 @@ public class Piece : MonoBehaviour
         sprite.sprite = board.GetSpriteByType(type);
     }
 
+    public void SetNone()
+    {
+        sprite.sprite = null;
+        pieceType = PieceType.None;
+    }
+
     private void OnMouseDown()
     {
         // board.FindPieceAround(pos2.x,pos2.y);
