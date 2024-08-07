@@ -21,6 +21,7 @@ public class BubbleGun : MonoBehaviour
     
     [Header("Debug ListCheck")] [SerializeField]
     private List<Piece> piecesCheckLine;
+    [SerializeField] private Piece bubbleBlockLine;
     [SerializeField] private Piece bubbleCanShot;
 
     
@@ -42,6 +43,8 @@ public class BubbleGun : MonoBehaviour
             if (Input.GetMouseButton(0))
             {
                 DrawLine(mouse);
+                
+                Debug.DrawRay(points[0],(points[1] - points[0]) * 5);
             }
         }
 
@@ -89,26 +92,29 @@ public class BubbleGun : MonoBehaviour
                         continue;
                     }
                     
-                    // arrive here -> has List point -> end point 
-                    if (!board.HasPieceAround(piece))
+                    if (piece.pieceType == PieceType.None)
                     {
-                        continue;
-                    }
-
-                    if (piece.pieceType != PieceType.None)
-                    {
+                        if (bubbleCanShot != null)
+                        {
+                            bubbleCanShot.ReturnType();
+                        }
+                        bubbleCanShot = piece;
                         continue;
                     }
                     
-                    bubbleCanShot = piece;
+                    bubbleBlockLine = piece;
                     List<Vector3> subPoints = points.GetRange(0, i + 2);
                     points = subPoints;
-                    points[^1] = bubbleCanShot.position;
+                    // set end point to draw
+                    points[^1] = hit.point;
+                    // set border to check
+                    bubbleCanShot.SetBorder();
                     return;
                 }
             }
         }
         bubbleCanShot = null;
+        bubbleBlockLine = null;
     }
 
     private void Shoot()
@@ -122,7 +128,8 @@ public class BubbleGun : MonoBehaviour
         {
             return;
         }
-
+        // set the position to move
+        points[^1] = bubbleCanShot.position;
         StartCoroutine(FLyAsync());
     }
 

@@ -6,6 +6,7 @@ using UnityEngine;
 public class Board : MonoBehaviour
 {
     [SerializeField] private List<Piece> bubbles;
+    [SerializeField] private List<PieceData> pieceDatas;
     [SerializeField] private Piece tempBubble;
     [SerializeField] private Piece[,] boardPiece;
     public Vector2 sizeDefault;
@@ -157,4 +158,27 @@ public class Board : MonoBehaviour
             }
         }
     }
+
+    public Sprite GetSpriteByType(PieceType type)
+    {
+        foreach (var data in pieceDatas)
+        {
+            if (data.Type == type)
+            {
+                return data.Sprite;
+            }
+        }
+
+        return null;
+    }
+}
+
+[System.Serializable]
+public class PieceData
+{
+    [SerializeField] private PieceType type;
+    [SerializeField] private Sprite sprite;
+
+    public PieceType Type => type;
+    public Sprite Sprite => sprite;
 }

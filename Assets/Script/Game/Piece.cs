@@ -25,6 +25,21 @@ public class Piece : MonoBehaviour
         gameObject.name = $"Piece [{pos2.x},{pos2.y}]";
     }
 
+    public void ReturnType()
+    {
+        SetSprite(pieceType);
+    }
+
+    public void SetBorder()
+    {
+        SetSprite(PieceType.Border);
+    }
+
+    private void SetSprite(PieceType type)
+    {
+        sprite.sprite = board.GetSpriteByType(type);
+    }
+
     private void OnMouseDown()
     {
         // board.FindPieceAround(pos2.x,pos2.y);
@@ -39,5 +54,6 @@ public enum PieceType
     Orange,
     Pink,
     Red,
-    Yellow
+    Yellow,
+    Border
 }
