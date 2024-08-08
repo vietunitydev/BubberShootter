@@ -86,7 +86,19 @@ namespace MapGenerator.Editor
             bool random = GUILayout.Button("RANDOM",GUILayout.Width(100), GUILayout.Height(40));
             EditorGUILayout.EndHorizontal();
             
+            EditorGUILayout.Space(25);
+
             
+            EditorGUILayout.BeginHorizontal();
+            
+            if (CreateButton("AssetTool/UI_Ball", 50, 50))
+            {
+                Debug.Log("Square button clicked!");
+            }
+            
+            EditorGUILayout.EndHorizontal();
+            
+            EditorGUILayout.Space(25);
             
             for (int y = 0; y < levelData.sizeY; y++)
             {
@@ -122,6 +134,51 @@ namespace MapGenerator.Editor
             {
                 EditorUtility.SetDirty(levelData);
             }
+        }
+
+        // Phương thức tạo nút với ảnh từ đường dẫn
+        private bool CreateButton(string path, float width, float height)
+        {
+            Texture2D texture = (Texture2D)Resources.Load(path);
+            if (texture == null)
+            {
+                EditorGUILayout.LabelField("Texture not found.");
+                return false;
+            }
+
+            // Tạo một Rect cho ô vuông
+            Rect buttonRect = EditorGUILayout.GetControlRect(GUILayout.Width(width), GUILayout.Height(height));
+
+            // Xử lý màu nền theo trạng thái
+            Color originalColor = GUI.color; // Lưu màu nền gốc
+            Color backgroundColor = Color.blue;
+            Color pressedColor = Color.white;
+
+            // Vẽ nền màu xám
+            GUI.color = pressedColor;
+            GUI.DrawTexture(buttonRect, Texture2D.whiteTexture); // Vẽ ô vuông màu xám
+
+            // Vẽ ảnh lên ô vuông
+            GUI.DrawTexture(buttonRect, texture, ScaleMode.ScaleToFit);
+
+            // Xử lý sự kiện bấm chuột
+            bool clicked = false;
+            Event evt = Event.current;
+            if (evt.type == EventType.MouseDown && buttonRect.Contains(evt.mousePosition))
+            {
+                clicked = true;
+                GUI.color = pressedColor; // Thay đổi màu nền khi nhấn
+                evt.Use(); // Đánh dấu sự kiện là đã sử dụng để không tiếp tục xử lý
+            }
+            else if (evt.type == EventType.MouseUp)
+            {
+                GUI.color = originalColor; // Khôi phục màu nền khi chuột được thả ra
+            }
+
+            // Khôi phục màu nền gốc sau khi xử lý
+            GUI.color = originalColor;
+
+            return clicked;
         }
 
         private PieceType RandomPiece()

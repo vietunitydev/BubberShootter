@@ -21,4 +21,6 @@ MonoBehaviour:
   column: 10
   stars: 4200000063000000fbffffff
   background: {fileID: 0}
+  template: []
+  templateSprites: []
   randomColorBalls: 0
