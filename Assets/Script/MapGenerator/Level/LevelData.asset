@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c9abddab33964fce80b6745f47811dc, type: 3}
   m_Name: LevelData
   m_EditorClassIdentifier: 
+  gameType: 1
+  levelType: 0
   moves: 0
-  levelType: 
+  times: 1
   holes: 1
-  sizeY: 11
-  stars: 0d0000000e00000016000000
-  background: 
-  randomizeColors: 0
-  targets:
-  - targetName: 
+  sizeY: 10
+  column: 10
+  stars: 4200000063000000fbffffff
+  background: {fileID: 0}
+  randomColorBalls: 0

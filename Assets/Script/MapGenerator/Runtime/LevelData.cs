@@ -1,25 +1,43 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MapGenerator.Runtime
 {
     [CreateAssetMenu(fileName = "LevelData", menuName = "Level Design/Level Data")]
     public class LevelData : ScriptableObject
     {
+        [Header("General")] 
+        public GameType gameType;
+        public LevelType levelType;
         public int moves;
-        public string levelType;
+        public int times;
         public bool holes;
         public int sizeY;
+        public int column = 10;
         public int[] stars;
-        public string background;
-        public bool randomizeColors;
-        public List<LevelTarget> targets;
-        public GameObject[,] grid;
+        // Tutorial
+        public Sprite background;
+        public List<Sprite> template;
+
+        public Sprite[] templateSprites;
+        
+        public bool randomColorBalls;
+        // public GameObject[]
+        // public List<LevelTarget> targets;
+        [Header("Editor")]
+        public PieceType[,] Grid;
+    }
+    public enum GameType
+    {
+        Move,
+        Time
     }
 
-    [System.Serializable]
-    public class LevelTarget
+    public enum LevelType
     {
-        public string targetName;
+        Vertical,
+        Rotating
     }
+    
 }
